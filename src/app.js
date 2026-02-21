@@ -1,14 +1,15 @@
-const express = require("express");
+const express = require('express');
+
+const usersRoutes = require('./routes/users');
+const resourcesRoutes = require('./routes/resources');
+const reservationsRoutes = require('./routes/reservations');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-app.get("/health", (req, res) => {
-  res.status(200).json({ status: "API is running" });
-});
+app.use('/api/users', usersRoutes);
+app.use('/api/resources', resourcesRoutes);
+app.use('/api/reservations', reservationsRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+module.exports = app;

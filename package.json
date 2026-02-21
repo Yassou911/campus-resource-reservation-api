@@ -1,7 +1,7 @@
 {
   "name": "campus-resource-reservation-api",
   "version": "1.0.0",
-  "description": "",
+  "description": "The Campus Resource Reservation API is a backend system that manages reservable campus resources such as study rooms, lab spaces, and shared equipment.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,6 +11,18 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "express": "^5.2.1"
-  }
+    "express": "^5.2.1",
+    "mysql2": "^3.17.4"
+  },
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yassou911/campus-resource-reservation-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Yassou911/campus-resource-reservation-api/issues"
+  },
+  "homepage": "https://github.com/Yassou911/campus-resource-reservation-api#readme"
 }
