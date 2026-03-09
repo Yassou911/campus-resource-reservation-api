@@ -12,8 +12,9 @@ app.use('/api/users', usersRoutes);
 app.use('/api/resources', resourcesRoutes);
 app.use('/api/reservations', reservationsRoutes);
 
+const errorHandler = require('./middleware/errorHandler');
+app.use(errorHandler);
+
 module.exports = app;
 
-const errorHandler = require('./middleware/errorHandler');
 
-app.use(errorHandler);
