@@ -1,7 +1,10 @@
+const auth = require('../middleware/authMiddleware');
+const requireRole = require('../middleware/roleMiddleware');
 const validate = require('../middleware/validateRequest');
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
+
 
 router.get('/', async (req, res) => {
   const [rows] = await db.query('SELECT * FROM resources');
@@ -10,6 +13,8 @@ router.get('/', async (req, res) => {
 
 router.post(
   '/',
+  auth,
+  requireRole('admin'),
   validate(['resource_name', 'resource_type']),
   async (req, res) => {
     const { resource_name, resource_type, location } = req.body;

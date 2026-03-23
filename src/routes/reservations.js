@@ -1,3 +1,4 @@
+const auth = require('../middleware/authMiddleware');
 const validate = require('../middleware/validateRequest');
 const express = require('express');
 const router = express.Router();
@@ -10,6 +11,7 @@ router.get('/', async (req, res) => {
 
 router.post(
   '/',
+  auth,
   validate(['user_id', 'resource_id', 'start_time', 'end_time']),
   async (req, res) => {
     const { user_id, resource_id, start_time, end_time } = req.body;
