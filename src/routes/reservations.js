@@ -4,9 +4,13 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-router.get('/', async (req, res) => {
-  const [rows] = await db.query('SELECT * FROM reservations');
-  res.json(rows);
+router.get('/', async (req, res, next) => {
+  try {
+    const [rows] = await db.query('SELECT * FROM reservations');
+    res.json(rows);
+  } catch (err) {
+    next(err);   
+  }
 });
 
 router.post(
@@ -15,6 +19,19 @@ router.post(
   validate(['user_id', 'resource_id', 'start_time', 'end_time']),
   async (req, res) => {
     const { user_id, resource_id, start_time, end_time } = req.body;
+
+    if (!req.body.start_time) {
+      return res.status(400).json({
+        error: 'start_time is required'
+      });
+    }
+
+    if (!resource_id) {
+        return res.status(400).json({
+          error: 'resource_id is required'
+        });
+    }
+
 
     // End time must be after start time
     if (new Date(end_time) <= new Date(start_time)) {

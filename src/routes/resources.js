@@ -6,9 +6,13 @@ const router = express.Router();
 const db = require('../db');
 
 
-router.get('/', async (req, res) => {
-  const [rows] = await db.query('SELECT * FROM resources');
-  res.json(rows);
+router.get('/', async (req, res, next) => {
+  try {
+    const [rows] = await db.query('SELECT * FROM resources');
+    res.json(rows);
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.post(

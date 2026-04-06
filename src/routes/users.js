@@ -3,9 +3,13 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-router.get('/', async (req, res) => {
-  const [rows] = await db.query('SELECT * FROM users');
-  res.json(rows);
+router.get('/', async (req, res, next) => {
+  try {
+    const [rows] = await db.query('SELECT * FROM users');
+    res.json(rows);
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.post(
@@ -21,6 +25,7 @@ router.post(
 
     res.status(201).json({ user_id: result.insertId });
   }
+  
 );
 
 
