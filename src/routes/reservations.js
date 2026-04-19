@@ -1,3 +1,4 @@
+const sendError = require('../helpers/sendError');
 const auth = require('../middleware/authMiddleware');
 const validate = require('../middleware/validateRequest');
 const express = require('express');
@@ -6,7 +7,7 @@ const db = require('../db');
 
 router.get('/', async (req, res, next) => {
   try {
-    const [rows] = await db.query('SELECT * FROM reservations');
+    const [rows] = await db.query('SELECT reservation_id, user_id, resource_id, start_time, end_time, status FROM reservations');
     res.json(rows);
   } catch (err) {
     next(err);   
@@ -35,20 +36,16 @@ router.post(
 
     // End time must be after start time
     if (new Date(end_time) <= new Date(start_time)) {
-      return res.status(400).json({
-        error: "End time must be after start time"
-      });
+      return sendError(res, 400, "End time must be after start time");
     }
 
     const [resource] = await db.query(
-      'SELECT * FROM resources WHERE resource_id = ?',
+      'SELECT resource_id FROM resources WHERE resource_id = ?',
       [resource_id]
     );
 
     if (resource.length === 0) {
-      return res.status(400).json({
-        error: "Resource does not exist"
-      });
+      return sendError(res, 400, "Resource does not exist");
     }
 
     const [result] = await db.query(

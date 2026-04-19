@@ -16,10 +16,11 @@ app.use(express.json());
 
 app.use(requestLogger);
 
+app.use('/auth', authRoutes);
+
 app.use('/api/users', usersRoutes);
 app.use('/api/resources', resourcesRoutes);
 app.use('/api/reservations', reservationsRoutes);
-app.use('/auth', authRoutes);
 
 app.use(errorHandler);
 
